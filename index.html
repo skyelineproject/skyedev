@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#292722">
+  <meta name="description" content="Skye — uma visão em evolução para o futuro da inteligência artificial pessoal.">
+  <title>SKYE — Uma visão em evolução</title>
+  <style>
+    :root {
+      --ink: #292722;
+      --paper: #F5F0E8;
+      --clay: #D97757;
+      --sand: #E6D5C3;
+      --muted-dark: #B8B0A5;
+      --rule-dark: rgba(245,240,232,.22);
+      --muted-light: #71685F;
+      --rule-light: rgba(41,39,34,.2);
+      --max: 1440px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; background: var(--ink); }
+    body { margin: 0; color: var(--paper); background: var(--ink); font-family: Arial, Helvetica, sans-serif; -webkit-font-smoothing: antialiased; }
+    body.menu-open { overflow: hidden; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    .page { max-width: var(--max); margin: 0 auto; overflow: clip; }
+    .topline { height: 5px; width: 100%; background: var(--clay); transform-origin: left; transform: scaleX(0); position: fixed; inset: 0 auto auto 0; z-index: 50; }
+    header { min-height: 92px; padding: 0 clamp(22px, 5vw, 76px); display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--rule-dark); position: relative; z-index: 20; }
+    .wordmark { display: inline-flex; align-items: center; gap: 13px; font-size: 14px; letter-spacing: .16em; font-weight: 700; }
+    .mark { width: 22px; height: 22px; border: 1px solid var(--clay); display: inline-block; position: relative; transform: rotate(45deg); }
+    .mark:after { content: ""; position: absolute; width: 6px; height: 6px; background: var(--clay); left: 7px; top: 7px; }
+    .header-right { display: flex; align-items: center; gap: 28px; }
+    .header-note { color: var(--muted-dark); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; }
+    .menu-button { display: inline-flex; align-items: center; gap: 13px; padding: 10px 0 10px 14px; border: 0; color: var(--paper); background: transparent; cursor: pointer; text-transform: uppercase; letter-spacing: .12em; font-size: 10px; }
+    .menu-icon { width: 24px; height: 18px; display: inline-flex; flex-direction: column; justify-content: center; gap: 5px; }
+    .menu-icon span { height: 1px; width: 24px; background: var(--paper); transition: transform .25s ease; }
+    .menu-button[aria-expanded="true"] .menu-icon span:first-child { transform: translateY(3px) rotate(45deg); }
+    .menu-button[aria-expanded="true"] .menu-icon span:last-child { transform: translateY(-3px) rotate(-45deg); }
+    .menu-overlay { position: fixed; z-index: 15; inset: 0; padding: 120px clamp(22px, 8vw, 120px) 50px; background: var(--clay); color: var(--ink); display: flex; flex-direction: column; justify-content: center; visibility: hidden; opacity: 0; transform: translateY(-8px); transition: opacity .25s ease, transform .25s ease, visibility .25s; }
+    .menu-overlay.open { visibility: visible; opacity: 1; transform: translateY(0); }
+    .menu-overlay a { width: fit-content; font-weight: 700; font-size: clamp(2.5rem, 7vw, 6rem); letter-spacing: -.07em; line-height: 1.07; border-bottom: 1px solid transparent; }
+    .menu-overlay a:hover { border-color: var(--ink); }
+    .menu-foot { margin-top: 40px; text-transform: uppercase; font-size: 10px; letter-spacing: .13em; }
+
+    .hero { min-height: min(780px, calc(100svh - 92px)); padding: clamp(52px, 7vw, 100px) clamp(22px, 5vw, 76px) 80px; position: relative; display: grid; grid-template-columns: 1.05fr .95fr; align-items: center; gap: clamp(20px, 4vw, 68px); }
+    .hero-copy { position: relative; z-index: 2; padding-bottom: 30px; }
+    .eyebrow { display: flex; gap: 13px; align-items: center; color: var(--muted-dark); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; margin-bottom: 31px; }
+    .eyebrow:before { content: ""; background: var(--clay); height: 2px; width: 35px; }
+    h1 { font-size: clamp(6rem, 17vw, 16.8rem); line-height: .72; font-weight: 800; letter-spacing: -.105em; margin: 0 0 38px -.045em; }
+    h1 span { color: var(--clay); }
+    .hero-statement { max-width: 580px; font-size: clamp(1.6rem, 3vw, 3rem); line-height: 1.12; letter-spacing: -.055em; font-weight: 500; margin: 0; }
+    .hero-bottom { display: flex; align-items: flex-end; justify-content: space-between; gap: 26px; margin-top: 36px; max-width: 570px; }
+    .intro { max-width: 350px; color: var(--muted-dark); font-size: 13px; line-height: 1.8; margin: 0; }
+    .text-link { flex: 0 0 auto; display: inline-flex; gap: 12px; align-items: center; border-bottom: 1px solid var(--clay); padding: 0 0 9px; color: var(--paper); font-size: 11px; text-transform: uppercase; letter-spacing: .1em; }
+    .text-link span { color: var(--clay); font-size: 17px; transition: transform .2s ease; }
+    .text-link:hover span { transform: translate(3px,3px); }
+    .hero-art { align-self: stretch; min-height: 450px; position: relative; display: grid; place-items: center; overflow: hidden; }
+    .art-frame { position: absolute; inset: 5% 4% 9% 12%; border: 1px solid var(--rule-dark); }
+    .art-frame:before, .art-frame:after { content: ""; position: absolute; background: var(--rule-dark); }
+    .art-frame:before { left: 50%; top: 0; bottom: 0; width: 1px; }
+    .art-frame:after { top: 50%; left: 0; right: 0; height: 1px; }
+    .big-index { position: absolute; top: 1%; right: 1%; color: var(--muted-dark); writing-mode: vertical-rl; font-size: 10px; letter-spacing: .22em; }
+    .art-orbit { position: relative; width: min(33vw, 410px); min-width: 245px; aspect-ratio: 1; border: 1px solid rgba(217,119,87,.8); border-radius: 50%; transform: rotate(-31deg) scaleY(.76); animation: drift 18s ease-in-out infinite alternate; }
+    .art-orbit:before { content: ""; position: absolute; inset: 12%; border: 1px solid var(--rule-dark); border-radius: 50%; transform: rotate(57deg) scaleX(.85); }
+    .art-orbit:after { content: ""; position: absolute; width: 14px; height: 14px; background: var(--clay); border-radius: 50%; top: 13%; left: 22%; box-shadow: 0 0 0 10px rgba(217,119,87,.08), 0 0 50px rgba(217,119,87,.32); }
+    .art-core { position: absolute; width: 29%; aspect-ratio: 1; border-radius: 50%; background: var(--clay); left: 36%; top: 35%; opacity: .95; box-shadow: inset -22px -20px 40px rgba(41,39,34,.15), 0 0 0 25px rgba(217,119,87,.035); }
+    .art-label { position: absolute; left: 0; bottom: 1%; color: var(--muted-dark); font-size: 9px; text-transform: uppercase; letter-spacing: .18em; writing-mode: vertical-rl; transform: rotate(180deg); }
+    .art-coord { position: absolute; bottom: 8%; right: 4%; font-size: 9px; color: var(--muted-dark); letter-spacing: .12em; }
+    .edge-number { position: absolute; bottom: 26px; right: clamp(22px, 5vw, 76px); font-size: 10px; color: var(--muted-dark); letter-spacing: .16em; }
+
+    .manifesto { background: var(--paper); color: var(--ink); padding: clamp(75px, 11vw, 155px) clamp(22px, 9vw, 135px); position: relative; }
+    .section-label { display: flex; align-items: center; gap: 13px; font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted-light); margin-bottom: 42px; }
+    .section-label b { font-weight: 500; color: var(--clay); }
+    .manifesto h2 { margin: 0; max-width: 980px; font-size: clamp(3.2rem, 8.5vw, 8.1rem); line-height: .98; font-weight: 600; letter-spacing: -.085em; }
+    .manifesto h2 em { color: var(--clay); font-style: normal; }
+    .manifesto-end { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 65px; padding-top: 22px; border-top: 1px solid var(--rule-light); }
+    .manifesto-end .aside-index { color: var(--clay); font-size: 11px; letter-spacing: .12em; }
+    .manifesto-end p { margin: 0; color: var(--muted-light); font-size: 14px; line-height: 1.9; max-width: 430px; }
+
+    .principles { padding: clamp(75px, 9vw, 125px) clamp(22px, 5vw, 76px); }
+    .principles-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 30px; margin-bottom: 65px; }
+    .principles h2 { font-size: clamp(2.7rem, 6vw, 6rem); line-height: .95; letter-spacing: -.075em; font-weight: 600; margin: 0; max-width: 640px; }
+    .principles-intro { color: var(--muted-dark); font-size: 12px; line-height: 1.8; max-width: 260px; margin: 8px 0 0; }
+    .principle-list { border-top: 1px solid var(--rule-dark); }
+    .principle-row { display: grid; grid-template-columns: 70px minmax(200px,.9fr) 1.1fr 30px; gap: 18px; align-items: baseline; padding: 25px 0; border-bottom: 1px solid var(--rule-dark); transition: padding .2s ease; }
+    .principle-row:hover { padding-left: 9px; padding-right: 9px; }
+    .principle-row .n { color: var(--clay); font-size: 11px; letter-spacing: .1em; }
+    .principle-row h3 { margin: 0; font-size: clamp(1.2rem, 2.5vw, 2.2rem); font-weight: 500; letter-spacing: -.04em; }
+    .principle-row p { margin: 0; max-width: 450px; color: var(--muted-dark); font-size: 12px; line-height: 1.8; }
+    .principle-row .arrow { color: var(--clay); text-align: right; font-size: 18px; transition: transform .2s ease; }
+    .principle-row:hover .arrow { transform: translate(3px,-3px); }
+
+    .closing { background: var(--clay); color: var(--ink); min-height: 350px; padding: clamp(50px, 8vw, 100px) clamp(22px, 5vw, 76px); display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 40px; position: relative; }
+    .closing-label { font-size: 10px; letter-spacing: .18em; text-transform: uppercase; margin-bottom: 25px; }
+    .closing h2 { font-size: clamp(3.5rem, 9vw, 9rem); letter-spacing: -.095em; line-height: .85; font-weight: 800; margin: 0; max-width: 900px; }
+    .closing-mark { width: clamp(70px, 11vw, 150px); height: clamp(70px, 11vw, 150px); border: 1px solid rgba(41,39,34,.65); border-radius: 50%; display: grid; place-items: center; font-size: clamp(2rem, 4vw, 4rem); font-weight: 300; transform: rotate(-25deg); }
+    footer { min-height: 90px; padding: 25px clamp(22px, 5vw, 76px); display: flex; justify-content: space-between; align-items: center; gap: 25px; color: var(--muted-dark); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; }
+    footer .foot-left { display: flex; align-items: center; gap: 15px; }
+    .foot-dot { background: var(--clay); width: 6px; height: 6px; border-radius: 50%; }
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+    @keyframes drift { from { transform: rotate(-31deg) scaleY(.76) translateY(-3px); } to { transform: rotate(-19deg) scaleY(.76) translateY(8px); } }
+    @media (max-width: 800px) {
+      header { min-height: 74px; }
+      .header-note { display: none; }
+      .hero { grid-template-columns: 1fr; min-height: auto; padding-top: 70px; padding-bottom: 65px; gap: 10px; }
+      h1 { font-size: clamp(6rem, 23vw, 12rem); margin-bottom: 31px; }
+      .hero-statement { max-width: 640px; }
+      .hero-art { min-height: 350px; margin-top: 15px; }
+      .art-orbit { width: min(57vw, 340px); }
+      .art-frame { inset: 4% 4% 8% 9%; }
+      .edge-number { bottom: 15px; }
+      .manifesto-end { grid-template-columns: 1fr; gap: 18px; margin-top: 42px; }
+      .principles-head { flex-direction: column; margin-bottom: 45px; }
+      .principle-row { grid-template-columns: 35px 1fr 25px; gap: 12px; }
+      .principle-row p { grid-column: 2 / 3; }
+      .principle-row .arrow { grid-column: 3; grid-row: 1; }
+      .closing { grid-template-columns: 1fr; }
+      .closing-mark { position: absolute; right: 24px; bottom: 28px; opacity: .55; }
+      footer { align-items: flex-start; flex-direction: column; gap: 13px; }
+    }
+    @media (max-width: 430px) {
+      .hero-bottom { flex-direction: column; align-items: flex-start; }
+      .art-coord { right: 0; }
+      .principle-row { grid-template-columns: 28px minmax(0,1fr) 18px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition: none !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topline" id="topline" aria-hidden="true"></div>
+  <div class="page">
+    <header>
+      <a class="wordmark" href="#inicio" aria-label="Skye, voltar ao início"><span class="mark" aria-hidden="true"></span><span>SKYE</span></a>
+      <div class="header-right">
+        <span class="header-note">Uma visão em evolução</span>
+        <button class="menu-button" id="menuButton" aria-expanded="false" aria-controls="menuOverlay" type="button">
+          <span id="menuLabel">Menu</span><span class="menu-icon" aria-hidden="true"><span></span><span></span></span>
+        </button>
+      </div>
+    </header>
+
+    <nav class="menu-overlay" id="menuOverlay" aria-label="Menu principal" inert>
+      <a href="#visao">A visão</a>
+      <a href="#principios">Princípios</a>
+      <a href="#futuro">O futuro</a>
+      <div class="menu-foot">SKYE — Uma ideia em construção</div>
+    </nav>
+
+    <main>
+      <section class="hero" id="inicio">
+        <div class="hero-copy">
+          <div class="eyebrow">Inteligência artificial pessoal</div>
+          <h1>SKYE<span>.</span></h1>
+          <p class="hero-statement">O futuro não tem de ser apenas uma resposta.</p>
+          <div class="hero-bottom">
+            <p class="intro">Uma visão de longo prazo sobre continuidade, relação e novas possibilidades para a inteligência artificial.</p>
+            <a class="text-link" href="#visao">Entrar na visão <span aria-hidden="true">↘</span></a>
+          </div>
+        </div>
+        <div class="hero-art" aria-label="Composição abstrata de círculos e linhas que representam uma ideia em evolução" role="img">
+          <div class="art-frame"></div>
+          <div class="big-index">ESTUDO VISUAL / 001</div>
+          <div class="art-orbit"><div class="art-core"></div></div>
+          <div class="art-label">Ideia em movimento</div>
+          <div class="art-coord">CONTINUIDADE — POSSIBILIDADE — FUTURO</div>
+        </div>
+        <div class="edge-number">01 — 03</div>
+      </section>
+
+      <section class="manifesto reveal" id="visao">
+        <div class="section-label"><b>01</b> / A visão</div>
+        <h2>Não apenas responder.<br>Mas <em>continuar.</em></h2>
+        <div class="manifesto-end">
+          <div class="aside-index">UMA IDEIA EM EVOLUÇÃO</div>
+          <p>A Skye nasce de uma pergunta sobre o futuro da inteligência artificial pessoal: e se uma interação não fosse apenas um momento isolado, mas parte de uma experiência com continuidade e significado ao longo do tempo?</p>
+        </div>
+      </section>
+
+      <section class="principles reveal" id="principios">
+        <div class="principles-head">
+          <div>
+            <div class="section-label"><b>02</b> / O que nos orienta</div>
+            <h2>Princípios antes<br>de promessas.</h2>
+          </div>
+          <p class="principles-intro">O futuro constrói-se com ambição, mas também com responsabilidade, atenção e respeito pelas pessoas.</p>
+        </div>
+        <div class="principle-list">
+          <a class="principle-row" href="#futuro"><span class="n">01</span><h3>Continuidade</h3><p>Valorizar o contexto e o conhecimento relevante para além de uma única conversa.</p><span class="arrow" aria-hidden="true">↗</span></a>
+          <a class="principle-row" href="#futuro"><span class="n">02</span><h3>Segurança</h3><p>Tratar a privacidade e o desenvolvimento responsável como partes essenciais da visão.</p><span class="arrow" aria-hidden="true">↗</span></a>
+          <a class="principle-row" href="#futuro"><span class="n">03</span><h3>Evolução</h3><p>Avançar com investigação, aprendizagem e decisões cuidadosas, um passo de cada vez.</p><span class="arrow" aria-hidden="true">↗</span></a>
+        </div>
+      </section>
+
+      <section class="closing reveal" id="futuro">
+        <div>
+          <div class="closing-label">03 / Olhar em frente</div>
+          <h2>Uma ideia.<br>Um horizonte.</h2>
+        </div>
+        <div class="closing-mark" aria-hidden="true">↗</div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="foot-left"><span class="foot-dot" aria-hidden="true"></span><span>Skye — Projeto em evolução</span></div>
+      <span>Uma visão para o futuro da inteligência artificial pessoal</span>
+      <span>© <span id="year"></span></span>
+    </footer>
+  </div>
+  <script>
+    const menuButton = document.getElementById('menuButton');
+    const menuOverlay = document.getElementById('menuOverlay');
+    const menuLabel = document.getElementById('menuLabel');
+    function setMenu(open) {
+      menuButton.setAttribute('aria-expanded', String(open));
+      menuOverlay.classList.toggle('open', open);
+      menuOverlay.inert = !open;
+      document.body.classList.toggle('menu-open', open);
+      menuLabel.textContent = open ? 'Fechar' : 'Menu';
+    }
+    menuButton.addEventListener('click', () => setMenu(menuButton.getAttribute('aria-expanded') !== 'true'));
+    menuOverlay.querySelectorAll('a').forEach(link => link.addEventListener('click', () => setMenu(false)));
+    document.addEventListener('keydown', event => { if (event.key === 'Escape') setMenu(false); });
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const topline = document.getElementById('topline');
+    let scrollTick = false;
+    window.addEventListener('scroll', () => {
+      if (scrollTick) return;
+      scrollTick = true;
+      window.requestAnimationFrame(() => {
+        const range = document.documentElement.scrollHeight - window.innerHeight;
+        topline.style.transform = `scaleX(${range > 0 ? window.scrollY / range : 0})`;
+        scrollTick = false;
+      });
+    }, { passive: true });
+    const revealItems = document.querySelectorAll('.reveal');
+    if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const revealObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in');
+            revealObserver.unobserve(entry.target);
+          }
+        });
+      }, { threshold: .12 });
+      revealItems.forEach(item => revealObserver.observe(item));
+    } else revealItems.forEach(item => item.classList.add('in'));
+  </script>
+</body>
+</html>
